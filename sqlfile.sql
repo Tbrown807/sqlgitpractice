@@ -1,61 +1,62 @@
-SELECT * FROM student
+select * from [Sample - Superstore]
+--select first 10 rows of all attribute
+select top(10) * from [Sample - Superstore]
 
-ALTER TABLE STUDENT
-ADD CONTACT VARCHAR(20)
+--fetching specified column
+SELECT ship_mode, customer_name
+FROM [Sample - Superstore]
+--using aliase and calcuate the unit price of each quantity
+SELECT product_name, customer_name as name_, (sales/Quantity) as unit_price
+FROM [Sample - Superstore]
 
---this is how to insert
-INSERT INTO student
-VALUES(1,'shade',20,'2024-02-14','09022787028'),
-	  (2,'Tobi',23,'2024-06-19','09022787028'),
-	  (3,'soji',22,'2024-03-11','09022787028'),
-	  (4,'Ruth',21,'2024-07-13','09022787028'),
-	  (5,'lawal',20,'2024-06-15','09022787028')
+--using where clause with > operation
+SELECT ship_mode, customer_name, product_name, city, sales, quantity
+FROM [Sample - Superstore]
+WHERE Quantity > 4;
 
-INSERT INTO department_info
-VALUES (
+SELECT ship_mode, customer_name, product_name, city, sales, quantity
+FROM [Sample - Superstore]
+WHERE Quantity BETWEEN 2 AND 4;
 
-	  alter table department_info
-	  drop constraint [UQ__student__870C3C8B9016BD2B]
+SELECT ship_mode, customer_name, product_name, city, sales, quantity
+FROM [Sample - Superstore]
+WHERE Quantity >=2 AND Quantity < 5
 
-	  alter table student
-	  drop constraint [UQ__student__870C3C8B9016BD2B]
+--USING WHERE CLAUSE AND LIKE OPERATOR
+SELECT ship_mode, customer_name, product_name, city, sales, quantity
+FROM [Sample - Superstore]
+WHERE City LIKE 'A%' and Quantity < 4
+--End word like
+SELECT ship_mode, customer_name, product_name, city, sales, quantity
+FROM [Sample - Superstore]
+WHERE city LIKE '%on'
 
-	  ALTER TABLE student
-	  DROP COLUMN department_id
+--middle or in between like
+SELECT ship_mode, customer_name, product_name, city, sales, quantity
+FROM [Sample - Superstore]
+WHERE city LIKE '%_m_%'
 
-INSERT INTO department_info
-VALUES (1,'Computer Science'),
-		(2,'CyberSecurity'),
+--using in operator find the transaction of Ken Black,Joel Eaton,Ryan Crowe
+SELECT ship_mode, customer_name, product_name, city, sales, quantity
+FROM [Sample - Superstore]
+WHERE Customer_name IN ('Ken Black','Joel Eaton','Ryan Crowe')
 
-INSERT INTO department_info
-VALUES (3,'data science'),
-		(4,'data analyst') 
+--ORDER CLAUSE
+SELECT ship_mode, customer_name, product_name, city, sales, quantity
+FROM [Sample - Superstore]
+WHERE Customer_name IN ('Ken Black','Joel Eaton','Ryan Crowe')
+ORDER BY Quantity desc
 
-SELECT * FROM student
+--GROUP BY CLAUSE
+SELECT city FROM [Sample - Superstore]
+GROUP BY city
 
---UODATE VALUES SYNTAX UPDATE table_name SET column_to_update=values WHERE condition is met
---multiple value update
-UPDATE student
-SET department_id=1
-WHERE student_id IN (4,5);
+SELECT city, count(*)as customer_count FROM [Sample - Superstore]
+GROUP BY city
+HAVING count(*)>100;
 
---single update
-UPDATE student
-SET contact=null
-WHERE student_id=1
-
---USE CASE STATEMENT TO UPDATE MULTIPLE ROWS
-UPDATE student
-SET department_id = CASE
-WHEN student_id=1 THEN 2
-WHEN student_id=2 THEN 3
-WHEN student_id=3 THEN 4
-ELSE department_id
-END
-WHERE student_id in (1,2,3)
-
-
---DELETE OPERATION
-DELETE FROM student
-WHERE student_id=3
+SELECT city, SUM(sales)AS Total_sales, MAX(Quantity), count(*) As 'number of transaction'
+FROM [Sample - Superstore]
+GROUP BY city
+ORDER BY total_sales DESC 
  
