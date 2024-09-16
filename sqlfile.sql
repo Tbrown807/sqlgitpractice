@@ -58,5 +58,5 @@ HAVING count(*)>100;
 SELECT city, SUM(sales)AS Total_sales, MAX(Quantity), count(*) As 'number of transaction'
 FROM [Sample - Superstore]
 GROUP BY city
-ORDER BY total_sales DESC 
+ORDER BY total_sales DESC C
  
